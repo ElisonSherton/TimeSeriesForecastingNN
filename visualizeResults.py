@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import streamlit as st
 plt.style.use("fivethirtyeight")
 
 def visualize_results(preds, labels, sym, img_pth, pred_pth, dates):
@@ -26,6 +27,8 @@ def visualize_results(preds, labels, sym, img_pth, pred_pth, dates):
     df["Type"] = flags
     df.index = dates
     df.to_csv(pred_pth)
+    st.write("Predictions for the last five timestamps...")
+    st.dataframe(df.tail(5), width = 600, height = 800)
 
     # Find out the first element which belongs to validation dataset to depict the same manually
     dt = None
@@ -48,3 +51,4 @@ def visualize_results(preds, labels, sym, img_pth, pred_pth, dates):
     plt.tight_layout()
     plt.savefig(img_pth)
     plt.close()
+    st.image(image = img_pth, caption = f"{sym} forecast analysis", width = 800)
